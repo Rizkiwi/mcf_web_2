@@ -106,24 +106,29 @@ def predict_class(data):
 
 # Streamlit app
 def main():
-    st.title('Klasifikasi Pasien')
-    st.write('Masukkan data pasien untuk melakukan klasifikasi.')
+    st.title('Klasifikasi Kadar Kolesterol')
+    st.write('By Iris.tentan')
 
-    # Input form
-    jenis_kelamin = st.selectbox('Jenis Kelamin', ['Laki-laki', 'Perempuan'])
-    usia = st.number_input('Usia', min_value=0, max_value=120, value=30)
-    tekanan_darah_sistolik = st.number_input('Tekanan darah (Sistolik)', min_value=0, value=120)
-    tekanan_darah_diastolik = st.number_input('Tekanan darah (Diastolik)', min_value=0, value=80)
-    tinggi_badan = st.number_input('Tinggi badan (cm)', min_value=0.0, value=170.0)
-    berat_badan = st.number_input('Berat badan (kg)', min_value=0.0, value=70.0)
-    imt = st.number_input('IMT (kg/m2)', min_value=0.0, value=25.0)
-    lingkar_perut = st.number_input('Lingkar perut (cm)', min_value=0.0, value=90.0)
-    glukosa_puasa = st.number_input('Glukosa Puasa (mg/dL)', min_value=0, value=100)
-    trigliserida = st.number_input('Trigliserida (mg/dL)', min_value=0, value=150)
-    fat = st.number_input('Fat', min_value=0.0, value=25.0)
-    visceral_fat = st.number_input('Visceral Fat', min_value=0.0, value=10.0)
-    masa_kerja = st.number_input('Masa Kerja', min_value=0.0, value=5.0)
-    tempat_lahir = st.text_input('Tempat Lahir', '')
+    # Input form with two columns
+    col1, col2 = st.columns(2)
+
+    with col1:
+        jenis_kelamin = st.selectbox('Jenis Kelamin', ['Laki-laki', 'Perempuan'])
+        usia = st.number_input('Usia', min_value=0, max_value=120, value=30)
+        tekanan_darah_sistolik = st.number_input('Tekanan darah (Sistolik)', min_value=0, max_value=200, value=120)
+        tekanan_darah_diastolik = st.number_input('Tekanan darah (Diastolik)', min_value=0, max_value=100, value=80)
+        tinggi_badan = st.number_input('Tinggi badan (cm)', min_value=0.0,max_value=200.0,  value=170.0)
+        berat_badan = st.number_input('Berat badan (kg)', min_value=0.0, max_value=150.0, value=70.0)
+        imt = st.number_input('IMT (kg/m2)', min_value=0.0, value=25.0)
+
+    with col2:
+        lingkar_perut = st.number_input('Lingkar perut (cm)', min_value=0.0, value=90.0)
+        glukosa_puasa = st.number_input('Glukosa Puasa (mg/dL)', min_value=0, value=100)
+        trigliserida = st.number_input('Trigliserida (mg/dL)', min_value=0, value=150)
+        fat = st.number_input('Fat', min_value=0.0, value=25.0 , help='Jumlah total lemak tubuh')
+        visceral_fat = st.number_input('Visceral Fat', min_value=0.0, value=10.0, help='Jumlah lemak tubuh yang terletak di sekitar organ dalam tubuh, seperti hati, pankreas, dan usus')
+        masa_kerja = st.number_input('Masa Kerja', min_value=0.0, value=5.0, help='Jumlah waktu yang telah dihabiskan seseorang dalam bekerja')
+        tempat_lahir = st.text_input('Tempat Lahir', '')
 
     # Create a DataFrame with the input data
     input_data = pd.DataFrame({
@@ -143,18 +148,20 @@ def main():
         'Tempat lahir': [tempat_lahir]
     })
 
-    # Make the prediction
-    if st.button('Prediksi'):
-        # Preprocess the input data
-        input_data_scaled = preprocess_input(input_data)
-        prediction = predict_class(input_data_scaled)
-        
-        # Display the prediction result
-        if prediction[0] == 0:
-            st.write('Cholesterol Total Anda Normal')
+    # Make the prediction only if all inputs are filled
+    if st.button('Prediksi', key='predict_button', help='Tekan tombol untuk melakukan prediksi', on_click=None, args=None, kwargs=None):
+        if not jenis_kelamin or not usia or not tekanan_darah_sistolik or not tekanan_darah_diastolik or not tinggi_badan or not berat_badan or not imt or not lingkar_perut or not glukosa_puasa or not trigliserida or not fat or not visceral_fat or not masa_kerja or not tempat_lahir:
+            st.error('Harap isi semua kolom sebelum melakukan prediksi.')
         else:
-            st.write('Maaf, Cholesterol Total Anda Tinggi')
-
+            # Preprocess the input data
+            input_data_scaled = preprocess_input(input_data)
+            prediction = predict_class(input_data_scaled)
+            
+            # Display the prediction result
+            if prediction[0] == 0:
+                st.image('Normal.png', caption='Normal')
+            else:
+                st.image('Tinggi.png', caption='Tinggi')
 
 
 if __name__ == '__main__':
