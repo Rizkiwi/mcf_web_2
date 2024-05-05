@@ -115,20 +115,20 @@ def main():
 
     with col1:
         jenis_kelamin = st.selectbox('Jenis Kelamin', ['Laki-laki', 'Perempuan'])
-        usia = st.number_input('Usia', min_value=0, max_value=120, value=30)
+        usia = st.number_input('Usia', min_value=0, max_value=120, value=22)
         tekanan_darah_sistolik = st.number_input('Tekanan darah (Sistolik)', min_value=0, max_value=200, value=120)
         tekanan_darah_diastolik = st.number_input('Tekanan darah (Diastolik)', min_value=0, max_value=100, value=80)
-        tinggi_badan = st.number_input('Tinggi badan (cm)', min_value=0.0,max_value=200.0,  value=170.0)
-        berat_badan = st.number_input('Berat badan (kg)', min_value=0.0, max_value=150.0, value=70.0)
+        tinggi_badan = st.number_input('Tinggi badan (cm)', min_value=0.0,max_value=200.0,  value=163.0)
+        berat_badan = st.number_input('Berat badan (kg)', min_value=0.0, max_value=150.0, value=51.35)
         imt = berat_badan / ((tinggi_badan/100) ** 2)
         st.number_input('IMT (kg/m2)', min_value=0.0, value=imt, disabled=True)
     with col2:
-        lingkar_perut = st.number_input('Lingkar perut (cm)', min_value=0.0, value=90.0)
-        glukosa_puasa = st.number_input('Glukosa Puasa (mg/dL)', min_value=0, value=100)
-        trigliserida = st.number_input('Trigliserida (mg/dL)', min_value=0, value=150)
-        fat = st.number_input('Fat', min_value=0.0, value=25.0 , help='Jumlah total lemak tubuh')
-        visceral_fat = st.number_input('Visceral Fat', min_value=0.0, value=10.0, help='Jumlah lemak tubuh yang terletak di sekitar organ dalam tubuh, seperti hati, pankreas, dan usus')
-        masa_kerja = st.number_input('Masa Kerja', min_value=0.0, value=5.0, help='Jumlah waktu yang telah dihabiskan seseorang dalam bekerja')
+        lingkar_perut = st.number_input('Lingkar perut (cm)', min_value=0.0, value=68.0)
+        glukosa_puasa = st.number_input('Glukosa Puasa (mg/dL)', min_value=0, value=84)
+        trigliserida = st.number_input('Trigliserida (mg/dL)', min_value=0, value=89)
+        fat = st.number_input('Fat', min_value=0.0, value=29.8 , help='Jumlah total lemak tubuh')
+        visceral_fat = st.number_input('Visceral Fat', min_value=0.0, value=2.0, help='Jumlah lemak tubuh yang terletak di sekitar organ dalam tubuh, seperti hati, pankreas, dan usus')
+        masa_kerja = st.number_input('Masa Kerja', min_value=0.0, value=0.0, help='Jumlah waktu yang telah dihabiskan seseorang dalam bekerja')
         tempat_lahir = st.text_input('Tempat Lahir', '')
 
     # Create a DataFrame with the input data
@@ -151,7 +151,7 @@ def main():
 
     # Make the prediction only if all inputs are filled
     if st.button('Prediksi', key='predict_button', help='Tekan tombol untuk melakukan prediksi', on_click=None, args=None, kwargs=None):
-        if not jenis_kelamin or not usia or not tekanan_darah_sistolik or not tekanan_darah_diastolik or not tinggi_badan or not berat_badan or not imt or not lingkar_perut or not glukosa_puasa or not trigliserida or not fat or not visceral_fat or not masa_kerja or not tempat_lahir:
+        if not tempat_lahir:
             st.error('Harap isi semua kolom sebelum melakukan prediksi.')
         else:
             # Preprocess the input data
