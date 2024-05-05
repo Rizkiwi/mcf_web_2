@@ -106,6 +106,7 @@ def predict_class(data):
 
 # Streamlit app
 def main():
+    st.image('qr.png', caption='Scan disin untuk mengakses website')
     st.title('Klasifikasi Kadar Kolesterol')
     st.write('By Iris.tentan')
 
@@ -119,8 +120,8 @@ def main():
         tekanan_darah_diastolik = st.number_input('Tekanan darah (Diastolik)', min_value=0, max_value=100, value=80)
         tinggi_badan = st.number_input('Tinggi badan (cm)', min_value=0.0,max_value=200.0,  value=170.0)
         berat_badan = st.number_input('Berat badan (kg)', min_value=0.0, max_value=150.0, value=70.0)
-        imt = st.number_input('IMT (kg/m2)', min_value=0.0, value=25.0)
-
+        imt = berat_badan / ((tinggi_badan/100) ** 2)
+        st.number_input('IMT (kg/m2)', min_value=0.0, value=imt, disabled=True)
     with col2:
         lingkar_perut = st.number_input('Lingkar perut (cm)', min_value=0.0, value=90.0)
         glukosa_puasa = st.number_input('Glukosa Puasa (mg/dL)', min_value=0, value=100)
